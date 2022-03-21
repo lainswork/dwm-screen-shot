@@ -167,7 +167,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\dwm_symbol.h" />
+    <ClInclude Include="..\src\imgui_window.h" />
     <ClInclude Include="..\src\resource.h" />
+    <ClInclude Include="..\src\win-url-download.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\src\dwm-screen-shot.rc" />
@@ -177,6 +180,8 @@
     <Image Include="bitbug_favicon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\dwm_symbol.cpp" />
+    <ClCompile Include="..\src\imgui_window.cpp" />
     <ClCompile Include="..\src\main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

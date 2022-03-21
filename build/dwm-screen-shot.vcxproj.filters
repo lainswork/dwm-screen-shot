@@ -18,6 +18,15 @@
     <ClInclude Include="..\src\resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\dwm_symbol.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\imgui_window.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\win-url-download.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\src\dwm-screen-shot.rc">
@@ -34,6 +43,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\dwm_symbol.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\imgui_window.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
