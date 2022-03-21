@@ -1,3 +1,6 @@
 [submodule "third_party/raw_pdb"]
 	path = third_party/raw_pdb
 	url = https://github.com/lainswork/raw_pdb.git
+[submodule "third_party/imgui"]
+	path = third_party/imgui
+	url = https://github.com/lainswork/imgui.git
