@@ -7,6 +7,7 @@ namespace imgui_window {
 	static ID3D11DeviceContext* g_pd3dDeviceContext = NULL;
 	static IDXGISwapChain* g_pSwapChain = NULL;
 	static ID3D11RenderTargetView* g_mainRenderTargetView = NULL;
+    
     // Forward declarations of helper functions
     bool CreateDeviceD3D(HWND hWnd);
     void CleanupDeviceD3D();
@@ -108,7 +109,7 @@ namespace imgui_window {
             g_pSwapChain->Release();
             return ImVec2(desc.BufferDesc.Width, desc.BufferDesc.Height);
         }
-       
+        return ImVec2();
     }
     bool init() {
         wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("DWM ½ØÍ¼¹¤¾ß"), NULL };
@@ -163,7 +164,40 @@ namespace imgui_window {
         g_pd3dDeviceContext->OMSetRenderTargets(1, &g_mainRenderTargetView, NULL);
         g_pd3dDeviceContext->ClearRenderTargetView(g_mainRenderTargetView, clear_color_with_alpha);
         ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+        Sleep(14);
+        g_pSwapChain->Present(0, 0); // Present with vsync
+    }
+    ID3D11ShaderResourceView* CreateDwmScreenShotShaderResourceView(void* data)
+    {
+        ID3D11ShaderResourceView* ret = 0;
+        D3D11_TEXTURE2D_DESC desc{};
+        memcpy(&desc, data,sizeof(desc));
 
-        g_pSwapChain->Present(1, 0); // Present with vsync
+        {
+            desc.Usage = D3D11_USAGE_DEFAULT;
+            desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+            desc.CPUAccessFlags = 0;
+
+            ID3D11Texture2D* pTexture = NULL;
+            D3D11_SUBRESOURCE_DATA subResource{};
+            subResource.pSysMem = (char*)data + sizeof(desc);
+            subResource.SysMemPitch = desc.Width * 4;
+            subResource.SysMemSlicePitch = 0;
+            g_pd3dDevice->CreateTexture2D(&desc, &subResource, &pTexture);
+
+            IM_ASSERT(pTexture != NULL);
+
+            // Create texture view
+            D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+            ZeroMemory(&srvDesc, sizeof(srvDesc));
+            srvDesc.Format = desc.Format;
+            srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+            srvDesc.Texture2D.MipLevels = desc.MipLevels;
+            srvDesc.Texture2D.MostDetailedMip = 0;
+            g_pd3dDevice->CreateShaderResourceView(pTexture, &srvDesc, &ret);
+            pTexture->Release();
+        }
+
+        return ret;
     }
 }
