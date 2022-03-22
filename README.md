@@ -12,12 +12,20 @@
 // 确保你已经安装了VS2019或以上 Make sure u have installed Visual Studio 2019 or later version
 // 打开PowerShell并进入一个为项目准备的文件夹,依次输入以下命令, Enter the following commands in PowerShell
 
-git clone https://github.com/lainswork/dwm-screen-shot.git
-git submodule update --init --recursive
-cd dwm-screen-shot/build
-devenv dwm-screen-shot.sln /build "Debug|x64" /Project dwm-screen-shot
-cd ../bin/x64/Debug
-.\dwm-screen-shot
+> git clone https://github.com/lainswork/dwm-screen-shot.git
+
+> cd dwm-screen-shot
+
+> git submodule update --init --recursive
+
+> cd ./build
+
+> devenv dwm-screen-shot.sln /build "Debug|x64" /Project dwm-screen-shot
+
+> cd ../bin/x64/Debug
+
+> .\dwm-screen-shot
+
 ```
 
 ## 注意
