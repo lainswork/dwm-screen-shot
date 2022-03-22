@@ -1,12 +1,13 @@
 #pragma once
+#include <UrlMon.h>
+#include <cstdio>
 #include <functional>
 #include <iostream>
 #include <vector>
-#include <cstdio>
-#include <UrlMon.h>
+
 #pragma comment(lib, "urlmon.lib")
-#include <tchar.h>
 #include <fstream>
+#include <tchar.h>
 
 class CBindStatusCallback : public IBindStatusCallback {
     using OnProgressCallBack_T = std::function<void(float)>;
@@ -15,17 +16,16 @@ class CBindStatusCallback : public IBindStatusCallback {
 
 public:
     inline static CBindStatusCallback *GenerateAnInstance() { return new CBindStatusCallback(); }
- 
 
     void OnProgressCallBack(OnProgressCallBack_T callback) { _OnProgressCallBack = callback; }
 
 private:
     ULONG                m_uRefCount = 1;
     OnProgressCallBack_T _OnProgressCallBack;
-    //std::vector<uint8_t> data;
+    // std::vector<uint8_t> data;
 
 public:
-    //std::vector<uint8_t> &GetData() { return data; }
+    // std::vector<uint8_t> &GetData() { return data; }
     STDMETHOD_(ULONG, Release)() {
         ULONG uRet = --m_uRefCount;
         if (0 == m_uRefCount)
@@ -33,8 +33,8 @@ public:
         return uRet;
     }
     STDMETHOD(OnProgress)
-    (ULONG   ulProgress,    //当前大小
-     ULONG   ulProgressMax, //总大小
+    (ULONG   ulProgress,    //
+     ULONG   ulProgressMax, //
      ULONG   ulStatusCode,
      LPCWSTR szStatusText) {
         if (ulProgressMax != 0 && _OnProgressCallBack) {
@@ -65,5 +65,3 @@ public:
     STDMETHOD(QueryInterface)(REFIID riid, void __RPC_FAR *__RPC_FAR *ppvObject) { return E_NOTIMPL; }
     STDMETHOD_(ULONG, AddRef)() { return m_uRefCount++; }
 };
-
-
